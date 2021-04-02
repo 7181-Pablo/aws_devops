@@ -14,7 +14,7 @@ Resources:
       KeyName: pablokeys
 
       SecurityGroups:
-        - HTTP and SSH
+        - SSH and HTTP
 
       Tags:
         - Key: Name
