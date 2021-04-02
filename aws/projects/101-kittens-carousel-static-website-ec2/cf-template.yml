@@ -1,17 +1,17 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
-  This template creates an EC2 instance with SSH and HTTP connection.
-  It is created by Mehmet COLGECEN
+  This template creates an EC2 instance with apache server using CloudFormation.
+  
 
 Resources: 
-  MehmetsInstance:
+  PabloCFInstance:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: ami-0742b4e673072066f
 
       InstanceType: t2.micro
 
-      KeyName: FirtsKeyPair
+      KeyName: pablokeys
 
       SecurityGroups:
         - HTTP and SSH
@@ -31,10 +31,10 @@ Resources:
           yum install -y wget 
           chmod -R 777 /var/www/html
           cd /var/www/html
-          wget https://raw.githubusercontent.com/mehmetcolgecen/AWS-DEVOPS/main/aws/projects/101-kittens-carousel-static-website-ec2/static-web/index.html
-          wget https://raw.githubusercontent.com/mehmetcolgecen/AWS-DEVOPS/main/aws/projects/101-kittens-carousel-static-website-ec2/static-web/cat0.jpg
-          wget https://raw.githubusercontent.com/mehmetcolgecen/AWS-DEVOPS/main/aws/projects/101-kittens-carousel-static-website-ec2/static-web/cat1.jpg
-          wget https://raw.githubusercontent.com/mehmetcolgecen/AWS-DEVOPS/main/aws/projects/101-kittens-carousel-static-website-ec2/static-web/cat2.jpg
+          wget https://raw.githubusercontent.com/7181-Pablo/aws_devops/main/aws/projects/101-kittens-carousel-static-website-ec2/static-web/index.html
+          wget https://raw.githubusercontent.com/7181-Pablo/aws_devops/main/aws/projects/101-kittens-carousel-static-website-ec2/static-web/cat0.jpg
+          wget https://raw.githubusercontent.com/7181-Pablo/aws_devops/main/aws/projects/101-kittens-carousel-static-website-ec2/static-web/cat1.jpg
+          wget https://raw.githubusercontent.com/7181-Pablo/aws_devops/main/aws/projects/101-kittens-carousel-static-website-ec2/static-web/cat2.jpg
           # start apache server
           systemctl start httpd
           systemctl enable httpd
