@@ -68,7 +68,8 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub Web Server of ${AWS::StackName}
-      UserData: !!Base64 |
+
+      UserData: !Base64 |
         #! /bin/bash
         yum update -y
         yum install python3 -y
