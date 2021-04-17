@@ -1,4 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
+
 Description: |
   CloudFormation Template for Roman Numerals Converter Application. This template creates Python Flask Web Application on 
   Amazon Linux 2 (XXXXXXXXXXXXXXXXX) EC2 Instance with custom security group allowing http connections on port 80 and SSH 
@@ -6,7 +7,7 @@ Description: |
 
 Parameters:
   KeyName:                               #keyname yazdim kisayoldan sectim
-    Description: Enter the name of your KeyPair for EC2
+    Description: Enter the name of your KeyPair for EC2 buradan #buradan yazisini goreceksin bunu secerken
     Type: AWS::EC2::KeyPair::KeyName
     #Default: buraya yazarsan user a default olarak secenek sunar ekranda.
     ConstraintDescription: Must one of the existing EC2 KeyPair
@@ -42,7 +43,7 @@ Resources:
   WebServerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: String #required
+      GroupDescription: Enable HTTP for Flask Web Server and SSH port to secure connection to my EC2 #required
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 80
@@ -73,9 +74,15 @@ Resources:
         yum install python3 -y
         pip3 install flask
         cd /home/ec2-user
+        wget https://raw.githubusercontent.com/7181-Pablo/aws_devops/main/aws/projects/Project-001-Roman-Numerals-Converter/app.py
+        wget -P templates https://raw.githubusercontent.com/7181-Pablo/aws_devops/main/aws/projects/Project-001-Roman-Numerals-Converter/templates/index.html
+        wget -P templates https://raw.githubusercontent.com/7181-Pablo/aws_devops/main/aws/projects/Project-001-Roman-Numerals-Converter/templates/result.html
+        python3 app.py
 
-
-  
-Transform:
   
 Outputs:
+WebsiteURL:
+    Value: !Sub 
+      - http://${PublicAddress}
+      - PublicAddress: !GetAtt WebServerHost.PublicDnsName
+    Description: Roman Numerals Converter Application URL
