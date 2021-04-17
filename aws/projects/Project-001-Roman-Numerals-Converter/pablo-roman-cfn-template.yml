@@ -82,7 +82,7 @@ Resources:
 
   
 Outputs:
-WebsiteURL:
+  WebsiteURL:
     Value: !Sub 
       - http://${PublicAddress}
       - PublicAddress: !GetAtt WebServerHost.PublicDnsName
