@@ -159,14 +159,7 @@ Resources:       # Bunu asagidan yukari doru doldurduk. En once security grup ya
           ToPort: 80
           CidrIp: 0.0.0.0/0
 
-  LogicalID:
-    Type: AWS::EC2::LaunchTemplate
-    Properties:
-      LaunchTemplateData:
-        LaunchTemplateData
-      LaunchTemplateName: String
-      TagSpecifications:
-        - LaunchTemplateTagSpecification        
+    
 
 #Transform:
   
