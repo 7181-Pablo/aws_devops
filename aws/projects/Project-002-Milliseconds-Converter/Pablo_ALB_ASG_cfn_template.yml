@@ -161,12 +161,10 @@ Resources:       # Bunu asagidan yukari doru doldurduk. En once security grup ya
 
     
 
-#Transform:
-  
-Outputs:                 # Stack olusturduktan sonra gidip her defasinda oradan DNS almamiza gerek kalmicak bu kisim vercek 
+Outputs:   
   URL:
     Description: The URL of the website
-    Value: !Join 
+    Value: !Join
       - ''
       - - 'http://'
         - !GetAtt myALB.DNSName
