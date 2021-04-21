@@ -1,0 +1,91 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+The Milliseconds Converter Application aims to convert the given time in milliseconds into hours,minutes, 
+and seconds. The application is to be coded in Python and deployed as a web application with Flask on AWS 
+Application Load Balancer with Auto Scaling Group of Elastic Compute Cloud (EC2) Instances using AWS Cloudformation Service.
+
+Parameters:
+  
+
+  
+
+  
+Mappings:
+  RegionImageMap:
+    us-east-1:
+      AMI: ami-0742b4e673072066f
+    us-east-2:
+      AMI: ami-05d72852800cbf29e
+    us-west-1:
+      AMI: ami-0577b787189839998
+    us-west-2:
+      AMI: ami-0518bb0e75d3619ca
+    eu-west-1:
+      AMI: ami-0ffea00000f287d30
+
+  
+Resources:
+  MySecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enables SSH and HTTP ports #required
+      SecurityGroupIngress: 
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      VpcId: !Ref #eklenecek
+
+  MyTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckIntervalSeconds: 30
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 3
+      Port: 80
+      Protocol: HTTP
+      UnhealthyThresholdCount: 2
+      VpcId: !Ref #eklenecek
+
+  MyListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions: #required
+        - Type: forward
+          TargetGroupArn: !Ref MyTargetGroup
+      LoadBalancerArn: !Ref MyApplicationLoadBalancer #required
+      Port: 80
+      Protocol: HTTP
+
+  MyLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      SecurityGroups:
+        - !GetAtt MySecurityGroup.GroupId
+      Subnets:
+        - !Ref #eklenecek
+
+  MyLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateData:
+        KeyName: !Ref #eklenecek
+        ImageId: !FindInMap 
+          - RegionImageMap
+          - !Ref AWS::Region
+          - AMI
+        UserData: !Base64 |
+
+
+
+
+
+
+
+
+
+Outputs:
