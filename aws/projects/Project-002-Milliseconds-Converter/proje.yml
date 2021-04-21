@@ -1,17 +1,11 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
-The Milliseconds Converter Application aims to convert the given time in milliseconds into hours,minutes, 
-and seconds. The application is to be coded in Python and deployed as a web application with Flask on AWS 
-Application Load Balancer with Auto Scaling Group of Elastic Compute Cloud (EC2) Instances using AWS Cloudformation Service.
 
 Parameters:
-  
 
-  
-
-  
 Mappings:
   RegionImageMap:
+    us-east-1:
     us-east-1:
       AMI: ami-0742b4e673072066f
     us-east-2:
@@ -20,8 +14,6 @@ Mappings:
       AMI: ami-0577b787189839998
     us-west-2:
       AMI: ami-0518bb0e75d3619ca
-    eu-west-1:
-      AMI: ami-0ffea00000f287d30
 
   
 Resources:
