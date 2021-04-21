@@ -6,7 +6,7 @@ Parameters:          # user girdileri
   VpcId:              # vpcid dedik sectik
     Description: VpcId of your existing Virtual Private Cloud(VPC)
     Type: AWS::EC2::VPC::Id
-  Subnets:            #subnet dedik sectik
+  Subnets:            #subnetidlist dedik sectik
     Description: The list of SubnetIds in your VPC
     Type: List<AWS::EC2::Subnet::Id>
   InstanceType:
