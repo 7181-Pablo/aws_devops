@@ -81,8 +81,7 @@ Resources:
     Properties:
       SecurityGroups:
         - !GetAtt MySecurityGroup.GroupId
-      Subnets:
-        - !Ref MySubnets #eklenecek
+      Subnets: !Ref MySubnets #eklenecek
 
   MyLaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
@@ -96,19 +95,24 @@ Resources:
         UserData: !Base64 |
 
 
+        SecurityGroupIds:
+          - !Ref MySecurityGroupGroup
+        InstanceType: !Ref MyInstanceType
+
+
   MyAutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
       AvailabilityZones:
         - !GetAZs 
-      DesiredCapacity: 2
+      DesiredCapacity: '2'
       HealthCheckGracePeriod: 90
       HealthCheckType: ELB
       LaunchTemplate:
         LaunchTemplateId: !Ref MyLaunchTemplate 
         Version: '1'
-      MaxSize: 3 #required
-      MinSize: 1 #required
+      MaxSize: '3' #required
+      MinSize: '1' #required
       TargetGroupARNs:
         - !Ref MyTargetGroup
 
