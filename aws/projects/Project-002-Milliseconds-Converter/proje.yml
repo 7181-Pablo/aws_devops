@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
 
-Parameters:
+Parameters: 
 
 Mappings:
   RegionImageMap:
@@ -53,7 +53,7 @@ Resources:
       Port: 80
       Protocol: HTTP
 
-  MyLoadBalancer:
+  MyApplicationLoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
       SecurityGroups:
@@ -73,11 +73,26 @@ Resources:
         UserData: !Base64 |
 
 
-
-
-
-
-
-
+  MyAutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      AvailabilityZones:
+        - !GetAZs 
+      DesiredCapacity: 2
+      HealthCheckGracePeriod: 90
+      HealthCheckType: ELB
+      LaunchTemplate:
+        LaunchTemplateId: !Ref MyLaunchTemplate 
+        Version: '1'
+      MaxSize: 3 #required
+      MinSize: 1 #required
+      TargetGroupARNs:
+        - !Ref MyTargetGroup
 
 Outputs:
+  WebsiteURL:
+    Description: URL of Project-002 App
+    Value: !Join 
+      - ''
+      - - 'http://'
+        - !GetAtt MyApplicationLoadBalancer.DNSName
