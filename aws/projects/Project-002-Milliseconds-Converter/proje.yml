@@ -98,7 +98,9 @@ Resources:
           - !Ref AWS::Region
           - AMI
         UserData: !Base64 |
-
+            #!/bin/bash
+            yum update -y
+            yum install -y http
 
         SecurityGroupIds:
           - !Ref MySecurityGroupGroup
