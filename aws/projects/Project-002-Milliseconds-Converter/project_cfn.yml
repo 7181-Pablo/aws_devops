@@ -100,7 +100,14 @@ Resources:
         UserData: !Base64 |
             #!/bin/bash
             yum update -y
-            yum install -y http
+            yum install python3 -y
+            pip3 install flask
+            cd /home/ec2-user
+            FOLDER=
+            wget $FOLDER/app.py
+            wget -P templates $FOLDER/templates/index.html
+            wget -P templates $FOLDER/templates/result.html
+            python3 app.py
 
         SecurityGroupIds:
           - !Ref MySecurityGroupGroup
