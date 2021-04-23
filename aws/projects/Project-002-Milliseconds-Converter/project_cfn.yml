@@ -123,6 +123,17 @@ Resources:
       TargetGroupARNs:
         - !Ref MyTargetGroup
 
+
+  CallCPUPolicy:
+    Type: "AWS::AutoScaling::ScalingPolicy"
+    Properties:
+      AutoScalingGroupName: !Ref MyAutoScalingGroup
+      PolicyType: TargetTrackingScaling
+      TargetTrackingConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: ASGAverageCPUUtilization
+        TargetValue: 40.0
+
 Outputs:
   WebsiteURL:
     Description: URL of Project-002 App
