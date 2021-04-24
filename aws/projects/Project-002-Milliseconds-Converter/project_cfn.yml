@@ -48,7 +48,7 @@ Resources:
   MySecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: Enables SSH and HTTP ports #required
+      GroupDescription: Enable HTTP for Flask Web Server and SSH port to secure connection to my EC2 #required
       SecurityGroupIngress: 
         - IpProtocol: tcp
           FromPort: 22
@@ -58,6 +58,7 @@ Resources:
           FromPort: 80
           ToPort: 80
           CidrIp: 0.0.0.0/0
+      VpcId: !Ref MyVPC
   
 
   MyTargetGroup:
@@ -111,15 +112,14 @@ Resources:
             python3 app.py
 
         SecurityGroupIds:
-          - !Ref MySecurityGroupGroup
+          - !Ref MySecurityGroup
         InstanceType: !Ref MyInstanceType
 
 
   MyAutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
-      AvailabilityZones:
-        - !GetAZs 
+      AvailabilityZones: !GetAZs
       DesiredCapacity: '2'
       HealthCheckGracePeriod: 90
       HealthCheckType: ELB
