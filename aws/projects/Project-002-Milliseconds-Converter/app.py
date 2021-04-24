@@ -25,7 +25,7 @@ def convert(milliseconds):
 @app.route('/', methods=['POST','GET'])
 def main_post():
     if request.method == 'POST':
-        alpha = request.form['number']     # degerler dictionary olarak geliyor dedi o yuzden key i aliyoz [] ile
+        alpha = request.form['number']     # degerler dictionary olarak geliyor dedi o yuzden key i aliyoz [number] ile
         if not alpha.isdecimal():
             return render_template('index.html', not_valid=True,developer_name='Abdullah')
         number=int(alpha)
@@ -38,5 +38,5 @@ def main_post():
 
 
 if __name__=='__main__':
-    app.run(debug=True)
-    #app.run(host='0.0.0.0',port=80)
+    app.run(debug=True)                         #This for if we run it on web localhost
+    #app.run(host='0.0.0.0',port=80)            #This is for if we run on AWS
