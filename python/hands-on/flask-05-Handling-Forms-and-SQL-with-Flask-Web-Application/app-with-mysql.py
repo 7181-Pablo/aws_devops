@@ -6,12 +6,12 @@ from flaskext.mysql import MySQL
 app = Flask(__name__)
 
 # Configure mysql database
-app.config['MYSQL_DATABASE_HOST'] = 'PLEASE WRITE HERE YOUR RDS ENDPOINT'
+app.config['MYSQL_DATABASE_HOST'] = 'XXXXXXXXXXXXXXXXXXXXXXX'  # PLEASE WRITE HERE YOUR RDS ENDPOINT
 app.config['MYSQL_DATABASE_USER'] = 'admin'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'Clarusway_1'
-app.config['MYSQL_DATABASE_DB'] = 'clarusway'
+app.config['MYSQL_DATABASE_DB'] = 'clarusway'  # herseyi clarusway database icinde olustur
 app.config['MYSQL_DATABASE_PORT'] = 3306
-mysql = MySQL()
+mysql = MySQL()   # bir object olusturuyoruz
 mysql.init_app(app)
 connection = mysql.connect()
 connection.autocommit(True)
@@ -20,7 +20,7 @@ cursor = connection.cursor()
 # Create users table within MySQL db and populate with sample data
 # Execute the code below only once.
 # Write sql code for initializing users table..
-drop_table = 'DROP TABLE IF EXISTS users;'
+drop_table = 'DROP TABLE IF EXISTS users;'   # bunu ilk seferde calistir yoksa her calistirdiginda tabloyu drop eder
 users_table = """
 CREATE TABLE users (
   username varchar(50) NOT NULL,
@@ -28,6 +28,8 @@ CREATE TABLE users (
   PRIMARY KEY (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 """
+# Bu kullanim aslinda sqlite ile ayni seyi ifade etmekle birlikte bazi mysql convention'dan dolayi kucuk farkliliklar olusmaktadir. Bunlardan
+# biri varchar olarak 50 dememiz gerekiyor burada. Ayrica en sonda ENGINE tipi belirtmemiz gerekiyor
 data = """
 INSERT INTO clarusway.users 
 VALUES 
@@ -38,6 +40,8 @@ VALUES
 cursor.execute(drop_table)
 cursor.execute(users_table)
 cursor.execute(data)
+# cursor.close()
+# connection.close()
 
 # Write a function named `find_emails` which find emails using keyword from the user table in the db,
 # and returns result as tuples `(name, email)`.
@@ -105,5 +109,5 @@ def add_email():
 
 # Add a statement to run the Flask application which can be reached from any host on port 80.
 if __name__ == '__main__':
-   # app.run(debug=True)
+   app.run(debug=True)
    app.run(host='0.0.0.0', port=80)

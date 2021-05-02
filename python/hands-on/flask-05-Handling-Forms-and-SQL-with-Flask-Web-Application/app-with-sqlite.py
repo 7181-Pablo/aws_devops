@@ -6,9 +6,9 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
 # Configure sqlite database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./email.db' 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app) 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./email.db'    # yani diyoruz ki sqlite sen ne yaparsam git email.db olustur ve ona kaydet.
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False      # degisiklikler icin uyari verme diyoz         
+db = SQLAlchemy(app)                            # bu app icinde olan herseyi db olarak tanimladiyoruz SQLAlchemy ye.asagida hep db kullaniyoruz
 
 # Execute the code below only once.
 # Write sql code for initializing users table..
@@ -25,7 +25,7 @@ VALUES
     ("Emrah", "emrah@google.com"),
     ("Mehmet", "mehmet@tesla.com");
 """
-
+    # olusturdugumuz tablolari bir nevi commit ediyoruz sqlite de yani cevirime sok execute et
 db.session.execute(drop_table)
 db.session.execute(users_table)
 db.session.execute(data)
@@ -38,15 +38,15 @@ def find_email(keyword):
     query = f"""
     SELECT * FROM users WHERE username like '%{keyword}%';
     """
-    result = db.session.execute(query)
+    result = db.session.execute(query)        # bu bize list olarak donuyor bunu asagida tuple yapcaz
     user_emails = [(row[0], row[1]) for row in result]
-    if not any(user_emails):
+    if not any(user_emails):                   # herhangi bir user email yoksa 
         user_emails = [("Not Found", "Not Found")]
     return user_emails
 
 
 # Write a function named `insert_email` which adds new email to users table the db.
-def insert_email(name,email):
+def insert_email(name,email):                          # bunu da iste post metoduyla HTML sayfasindan alcak name ve email olarak girecek oraya
     query = f"""
     SELECT * FROM users WHERE username like '{name}'
     """
@@ -54,13 +54,13 @@ def insert_email(name,email):
     response = ''
     if name == None or email == None:
         response = 'Username or email can not be empty!!'
-    elif not any(result):
+    elif not any(result):     #databasede verlen isim yoksa tabloya ekliyoz
         insert = f"""
         INSERT INTO users
         VALUES ('{name}', '{email}');
         """
         result = db.session.execute(insert)
-        db.session.commit()
+        db.session.commit()            #bunu yukaridaki kisimlarda yapmadim cunku orada fonksiyon icinde gecici ama burada tabloya ekleniyor kalici 
         response = f"User {name} and {email} have been added successfully"
     else:
         response = f"User {name} already exist"
@@ -96,4 +96,5 @@ def add_email():
 # Add a statement to run the Flask application which can be reached from any host on port 80.
 if __name__ == '__main__':
     app.run(debug=True)
+    #app.run(host='0.0.0.0, port=80)
 
